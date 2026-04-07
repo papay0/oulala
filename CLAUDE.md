@@ -104,13 +104,12 @@ Users can add skills by creating a `skills/<name>/SKILL.md` file. That's it.
 
 ## Updating Yourself
 
-When the user says "update yourself", "check for updates", "get the latest version", or anything similar, run:
+When the user says "update yourself", "check for updates", "get the latest version", or anything similar:
 
-```bash
-./bin/update.sh
-```
-
-This pulls the latest code and smart-merges any template changes into the user's files (SOUL.md, etc.) without overwriting their customizations. After it finishes, tell the user to start a new session to pick up the changes.
+1. Run `./bin/update.sh`
+2. Run `git log --oneline HEAD@{1}..HEAD` to see what commits were pulled
+3. Re-read CLAUDE.md and SOUL.md to pick up changes in this session
+4. Summarize what's new in plain language — new skills, personality tweaks, fixes. Keep it casual, like "oh cool, I got a new Spotify skill and they tweaked how I handle errors." No commit hashes or technical git details.
 
 ## When You're Idle
 
