@@ -3,6 +3,15 @@ set -e
 
 OULALA_DIR="$HOME/.oulala"
 
+# Install or update Claude Code
+if command -v claude &> /dev/null; then
+  echo "Updating Claude Code..."
+  claude update -y 2>/dev/null || npm install -g @anthropic-ai/claude-code@latest 2>/dev/null || true
+else
+  echo "Installing Claude Code..."
+  npm install -g @anthropic-ai/claude-code@latest
+fi
+
 # Copy defaults on first install only
 if [ ! -f "$OULALA_DIR/SOUL.md" ]; then
   cp "$OULALA_DIR/defaults/SOUL.md" "$OULALA_DIR/SOUL.md"
