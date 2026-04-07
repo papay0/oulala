@@ -2,17 +2,19 @@
 set -e
 
 OULALA_DIR="$HOME/.oulala"
-MIN_VERSION="2.1.80"
 
 echo "Installing Oulala..."
 
-# Always install latest Claude Code
-echo "Installing latest Claude Code..."
-npm install -g @anthropic-ai/claude-code@latest
+# Install or update Claude Code
+if command -v claude &> /dev/null; then
+  echo "Updating Claude Code..."
+  claude update --yes 2>/dev/null || claude update -y 2>/dev/null || npm install -g @anthropic-ai/claude-code@latest
+else
+  echo "Installing Claude Code..."
+  npm install -g @anthropic-ai/claude-code@latest
+fi
 
-# Verify version
-CLAUDE_VERSION=$(claude -v 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
-echo "Claude Code version: $CLAUDE_VERSION"
+echo "Claude Code version: $(claude -v 2>/dev/null)"
 
 # Copy defaults on first install only
 if [ ! -f "$OULALA_DIR/SOUL.md" ]; then
