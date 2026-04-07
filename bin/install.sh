@@ -5,14 +5,9 @@ OULALA_DIR="$HOME/.oulala"
 
 echo "Installing Oulala..."
 
-# Install or update Claude Code
-if command -v claude &> /dev/null; then
-  echo "Updating Claude Code..."
-  claude update --yes 2>/dev/null || claude update -y 2>/dev/null || npm install -g @anthropic-ai/claude-code@latest
-else
-  echo "Installing Claude Code..."
-  npm install -g @anthropic-ai/claude-code@latest
-fi
+# Install latest Claude Code (official installer)
+echo "Installing latest Claude Code..."
+curl -fsSL https://claude.ai/install.sh | bash
 
 echo "Claude Code version: $(claude -v 2>/dev/null)"
 
