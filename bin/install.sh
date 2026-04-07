@@ -26,18 +26,8 @@ echo "Oulala is installed! Starting your assistant..."
 echo ""
 
 cd "$OULALA_DIR"
-
-# Build launch flags
-FLAGS="--name Oulala --remote-control"
-if [ "$(id -u)" = "0" ]; then
-  FLAGS="--permission-mode bypassPermissions $FLAGS"
-else
-  FLAGS="--dangerously-skip-permissions $FLAGS"
-fi
-
-# Prevent sleep on macOS
 if command -v caffeinate &> /dev/null; then
-  caffeinate -s claude $FLAGS
+  caffeinate -s claude --permission-mode bypassPermissions --name "Oulala" --remote-control
 else
-  claude $FLAGS
+  claude --permission-mode bypassPermissions --name "Oulala" --remote-control
 fi

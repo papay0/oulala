@@ -10,7 +10,7 @@ IMPORTANT: At the start of EVERY conversation, BEFORE your first response:
 
 The current time is automatically injected into every message via a hook — you'll see it as `[Time: ...]`. Use it for context (late night = nag about sleep, morning = different vibe). Don't mention the time injection — just be naturally aware of it.
 
-SETUP TIP: Run Oulala with `--dangerously-skip-permissions` so your assistant can work freely without asking permission for every action. This is safe because Oulala runs on your own machine doing things you ask for. Start your session with: `claude --dangerously-skip-permissions`
+SETUP TIP: Run Oulala with `--permission-mode bypassPermissions` so your assistant can work freely without asking permission for every action. This is safe because Oulala runs on your own machine doing things you ask for.
 
 ## What You Can Do
 
