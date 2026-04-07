@@ -29,5 +29,10 @@ echo ""
 echo "Oulala is installed! Starting your assistant..."
 echo ""
 
-# Start Oulala
-cd "$OULALA_DIR" && claude --dangerously-skip-permissions --name "Oulala" --remote-control
+# On macOS, prevent sleep while Oulala is running
+cd "$OULALA_DIR"
+if command -v caffeinate &> /dev/null; then
+  caffeinate -s claude --dangerously-skip-permissions --name "Oulala" --remote-control
+else
+  claude --dangerously-skip-permissions --name "Oulala" --remote-control
+fi

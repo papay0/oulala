@@ -1,8 +1,9 @@
 ---
 name: imessage
-description: Read and send iMessages and SMS via macOS Messages.app. Use when the user asks about their texts, wants to read messages, send a text, check who messaged them, or reply to someone.
+description: Read and send iMessages and SMS via macOS Messages.app. Use when the user asks about their texts, wants to read messages, send a text, check who messaged them, or reply to someone. macOS only.
 requires:
   bins: imsg
+  platform: darwin
 setup: |
   1. Install imsg: brew install steipete/tap/imsg
   2. Grant Full Disk Access to your terminal (System Settings → Privacy & Security → Full Disk Access)
