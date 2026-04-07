@@ -85,9 +85,9 @@ You have your own memory system in the `memory/` directory. Do NOT use Claude Co
 ```markdown
 # People
 
-## Lisa
-- Girlfriend, dating since March 6, 2026
-- First date: beach near Golden Gate Bridge
+## Alex
+- Partner, dating since March 2026
+- Likes hiking and sushi
 
 # Preferences
 
