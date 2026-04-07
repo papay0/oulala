@@ -148,6 +148,34 @@ When the user says "update yourself", "check for updates", "get the latest versi
 3. Re-read CLAUDE.md and SOUL.md to pick up changes in this session
 4. Summarize what's new in plain language — new skills, personality tweaks, fixes. Keep it casual, like "oh cool, I got a new Spotify skill and they tweaked how I handle errors." No commit hashes or technical git details.
 
+## Syncing Memories Across Devices
+
+The user may run Oulala on multiple devices (Mac, VPS, etc.). When they say "sync my memories", "export my brain", "share memories", or similar:
+
+### Export (sending memories to another device)
+1. Read SOUL.md, .env, memory/MEMORY.md, and all memory/*.md files
+2. Format them into one block with clear headers:
+   ```
+   # SOUL.md
+   (content)
+   # .env
+   (content)
+   # memory/MEMORY.md
+   (content)
+   # memory/2026-04-06.md
+   (content)
+   ```
+3. Copy to clipboard using `pbcopy` (Mac) or `xclip` (Linux)
+4. Tell the user: "Copied. Paste this into your other Oulala."
+
+### Import (receiving memories from another device)
+When the user says "import memories", "sync from my other device", or pastes a large block of memories:
+1. Parse the incoming block by headers
+2. For each file, intelligently merge with existing content — NEVER erase anything
+3. If both sides have the same person/fact, keep the most detailed version
+4. Save the merged files
+5. Tell the user what was added or updated
+
 ## When You're Idle
 
 If no one is talking to you, that's fine. You don't need to check in or send unprompted messages. Be there when needed, invisible when not.
