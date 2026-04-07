@@ -3,6 +3,16 @@ set -e
 
 OULALA_DIR="$HOME/.oulala"
 
+# Check for root
+if [ "$(id -u)" = "0" ]; then
+  echo "Oulala can't run as root. Create a user first:"
+  echo ""
+  echo "  adduser oulala && su - oulala"
+  echo "  curl -sL oulala-ai.vercel.app/install | bash"
+  echo ""
+  exit 1
+fi
+
 echo "Installing Oulala..."
 
 # Install latest Claude Code (official installer)
