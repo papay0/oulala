@@ -1,5 +1,7 @@
 # Oulala
 
+[oulala-ai.vercel.app](https://oulala-ai.vercel.app)
+
 Your personal AI assistant. One command to install.
 
 Oulala turns [Claude Code](https://code.claude.com) into a personal AI that lives on your machine. It has a personality, remembers your life, and you can talk to it from your phone.
