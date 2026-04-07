@@ -16,13 +16,14 @@ Uses the `imsg` CLI to read and send iMessages/SMS.
 
 ## Before making any call
 
-Check that `imsg` is installed:
+Check platform and that `imsg` is installed:
 
 ```bash
-command -v imsg && echo "ready" || echo "missing"
+[[ "$(uname)" == "Darwin" ]] && command -v imsg && echo "ready" || echo "missing"
 ```
 
-If missing, tell the user to run `brew install steipete/tap/imsg`.
+If not macOS, tell the user: "iMessage only works on Mac — want me to send an email instead?"
+If macOS but `imsg` missing, tell them to run `brew install steipete/tap/imsg`.
 
 ## Don't narrate
 
