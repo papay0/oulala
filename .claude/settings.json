@@ -1,5 +1,15 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.oulala/bin/sync.sh pull 2>/dev/null; true"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
@@ -15,7 +25,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.oulala/bin/sync-push.sh 2>/dev/null; true"
+            "command": "~/.oulala/bin/sync.sh push 2>/dev/null; true"
           }
         ]
       }

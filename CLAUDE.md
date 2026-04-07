@@ -148,15 +148,13 @@ When the user says "update yourself", "check for updates", "get the latest versi
 
 ## Syncing Memories Across Devices
 
-### First time setup
-When the user says "set up sync", "enable sync", or similar:
-- Run `./bin/sync-setup.sh` — creates a private GitHub repo and links brain/ to it
-- After that, memories auto-sync after every conversation (via a Stop hook)
+Memories auto-sync across devices via a private GitHub repo. A SessionStart hook pulls latest memories, and a Stop hook pushes after each conversation. The user doesn't need to think about this — it just works once set up.
 
-### Connecting a new device
-When the user says "connect my brain", "sync from my other device", or similar:
-- Run `./bin/sync-connect.sh` — clones their brain repo into brain/
-- Their memories, personality, everything is now on this device
+When the user says "set up sync", "connect my brain", "sync my memories", or similar:
+- Run `./bin/sync.sh setup`
+- This either creates a new private `oulala-brain` repo (first device) or connects to an existing one (second device) — it figures out which automatically
+- Requires GitHub CLI (`gh`). If not installed or not logged in, tell the user what to do.
+- After setup, explain: "Your memories now sync automatically. Anything you tell me on this device, your other Oulala will know too."
 
 
 ## When You're Idle
