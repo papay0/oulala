@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[Time: $(date '+%Y-%m-%d %I:%M %p %Z')]\""
+          }
+        ]
+      }
+    ]
+  }
+}
