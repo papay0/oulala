@@ -150,13 +150,14 @@ When the user says "update yourself", "check for updates", "get the latest versi
 
 ## Syncing Memories Across Devices
 
-When the user says "sync my memories", "export my brain", "import memories", or similar, run:
+When the user says "sync my memories", "export my brain", or similar:
+- Run `./bin/sync-export.sh` — copies all memories to clipboard
+- Tell them: "Copied. Paste this into your other Oulala."
 
-```bash
-./bin/sync.sh
-```
-
-It will ask them to export (copy to clipboard) or import (paste from another device). The import uses Claude to intelligently merge memories without erasing anything.
+When the user says "import memories" or pastes a large block of exported memories:
+- Save what they pasted to a temp file
+- Run `./bin/sync-import.sh /tmp/oulala-import.md` — merges intelligently without erasing anything
+- Tell them what was updated
 
 ## When You're Idle
 
