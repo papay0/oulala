@@ -9,6 +9,16 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.oulala/bin/sync-push.sh 2>/dev/null; true"
+          }
+        ]
+      }
     ]
   }
 }

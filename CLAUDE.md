@@ -148,14 +148,16 @@ When the user says "update yourself", "check for updates", "get the latest versi
 
 ## Syncing Memories Across Devices
 
-When the user says "sync my memories", "export my brain", or similar:
-- Run `./bin/sync-export.sh` — copies all memories to clipboard
-- Tell them: "Copied. Paste this into your other Oulala."
+### First time setup
+When the user says "set up sync", "enable sync", or similar:
+- Run `./bin/sync-setup.sh` — creates a private GitHub repo and links brain/ to it
+- After that, memories auto-sync after every conversation (via a Stop hook)
 
-When the user says "import memories" or pastes a large block of exported memories:
-- Save what they pasted to a temp file
-- Run `./bin/sync-import.sh /tmp/oulala-import.md` — merges intelligently without erasing anything
-- Tell them what was updated
+### Connecting a new device
+When the user says "connect my brain", "sync from my other device", or similar:
+- Run `./bin/sync-connect.sh` — clones their brain repo into brain/
+- Their memories, personality, everything is now on this device
+
 
 ## When You're Idle
 

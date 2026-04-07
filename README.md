@@ -30,24 +30,36 @@ All on your machine. Your data stays local.
 
 ## How it works
 
-Oulala is not a new AI runtime. It's a configuration layer on top of Claude Code:
+Oulala is a configuration layer on top of Claude Code:
 
-- **SOUL.md** defines your AI's personality — rename it, make it funny, make it serious, make it yours
+- **brain/SOUL.md** defines your AI's personality — rename it, make it funny, make it serious, make it yours
+- **brain/** is where it remembers things about you — plain markdown you can read and edit
 - **skills/** teach it new abilities — each skill is just a markdown file
-- **memory/** is where it remembers things about you — plain markdown you can read and edit
 - **.env** stores API keys for skills (Oura, etc.)
-
-When you talk to Oulala, you're talking to Claude Code with a soul.
 
 ## Customize
 
-**Change the personality** — edit `~/.oulala/SOUL.md`
+**Change the personality** — edit `~/.oulala/brain/SOUL.md`
 
-**Add a skill** — create `~/.oulala/skills/your-skill/SKILL.md` with instructions for how to use an API
+**Add a skill** — create `~/.oulala/skills/your-skill/SKILL.md`
 
 **Add an API key** — edit `~/.oulala/.env`
 
-**Update** — tell your AI "update yourself" or run `./bin/update.sh`
+**Update** — tell your AI "update yourself"
+
+## Sync across devices
+
+Run Oulala on your Mac and your VPS with the same memories:
+
+```bash
+# On your main device:
+"set up sync"
+
+# On a new device after installing:
+"connect my brain"
+```
+
+Your memories sync automatically to a private GitHub repo. API keys stay per-device.
 
 ## Built with Claude Code, for Claude Code
 

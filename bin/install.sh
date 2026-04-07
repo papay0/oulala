@@ -40,13 +40,25 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 echo "Claude Code version: $(claude -v 2>/dev/null)"
 
-# Create .env on first install
+# Set up brain/ from defaults on first install
+mkdir -p "$OULALA_DIR/brain"
+for f in "$OULALA_DIR/defaults/"*.md; do
+  [ -f "$f" ] || continue
+  BASENAME=$(basename "$f")
+  if [ ! -f "$OULALA_DIR/brain/$BASENAME" ]; then
+    cp "$f" "$OULALA_DIR/brain/$BASENAME"
+    echo "Created brain/$BASENAME"
+  fi
+done
+
+# Create .env
 if [ ! -f "$OULALA_DIR/.env" ]; then
   touch "$OULALA_DIR/.env"
 fi
 
 echo ""
 echo "Oulala is installed! Starting your assistant..."
+echo "Edit ~/.oulala/brain/SOUL.md to customize your AI's personality."
 echo ""
 
 cd "$OULALA_DIR"

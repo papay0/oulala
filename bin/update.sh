@@ -2,26 +2,39 @@
 set -e
 
 OULALA_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-DEFAULTS_DIR="$OULALA_DIR/defaults"
 
 echo "Updating Oulala..."
 
-# Pull latest
 cd "$OULALA_DIR" && git pull --quiet
 echo "Pulled latest changes."
 
-# Check each template file against the user's copy
-for default_file in "$DEFAULTS_DIR"/*; do
+# Migrate old structure → brain/ if needed
+if [ ! -d "$OULALA_DIR/brain" ]; then
+  mkdir -p "$OULALA_DIR/brain"
+fi
+
+if [ -f "$OULALA_DIR/SOUL.md" ] && [ ! -f "$OULALA_DIR/brain/SOUL.md" ]; then
+  mv "$OULALA_DIR/SOUL.md" "$OULALA_DIR/brain/SOUL.md"
+  echo "Migrated SOUL.md → brain/SOUL.md"
+fi
+
+if [ -d "$OULALA_DIR/memory" ] && [ "$(ls -A "$OULALA_DIR/memory" 2>/dev/null)" ]; then
+  mv "$OULALA_DIR/memory/"* "$OULALA_DIR/brain/" 2>/dev/null
+  rmdir "$OULALA_DIR/memory" 2>/dev/null
+  echo "Migrated memory/ → brain/"
+fi
+
+# Smart-merge any updated defaults into brain/
+for default_file in "$OULALA_DIR/defaults/"*.md; do
+  [ -f "$default_file" ] || continue
   filename=$(basename "$default_file")
-  user_file="$OULALA_DIR/$filename"
+  user_file="$OULALA_DIR/brain/$filename"
 
   if [ ! -f "$user_file" ]; then
-    # User doesn't have this file yet — just copy it
     cp "$default_file" "$user_file"
-    echo "New file: $filename"
+    echo "New file: brain/$filename"
   elif ! diff -q "$default_file" "$user_file" > /dev/null 2>&1; then
-    # Files differ — use Claude to smart-merge
-    echo "Merging updates into $filename..."
+    echo "Merging updates into brain/$filename..."
     claude -p "You are merging an updated template into a user's customized file.
 
 TEMPLATE (new version from developers):
@@ -38,10 +51,8 @@ Rules:
 - Output ONLY the merged file content, nothing else" > "$user_file.merged"
 
     mv "$user_file.merged" "$user_file"
-    echo "Updated $filename (preserved your customizations)"
+    echo "Updated brain/$filename (preserved your customizations)"
   fi
 done
 
-echo ""
 echo "Oulala is up to date!"
-echo "Start a new session to pick up changes."
