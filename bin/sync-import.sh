@@ -46,7 +46,7 @@ Rules:
 - If the same fact exists on both sides, keep the most detailed version
 - For daily notes, keep all entries from both devices
 - For SOUL.md, keep the most customized version
-- For .env, keep all keys from both (incoming overrides if both have the same key)
+- For .env, keep all keys from both. If a key has a value on one side and is empty on the other, KEEP THE VALUE. Only override if both sides have different non-empty values (prefer incoming in that case).
 
 Output the merged result with each file separated by a line starting with '# FILE:':
 
