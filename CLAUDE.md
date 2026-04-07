@@ -150,31 +150,13 @@ When the user says "update yourself", "check for updates", "get the latest versi
 
 ## Syncing Memories Across Devices
 
-The user may run Oulala on multiple devices (Mac, VPS, etc.). When they say "sync my memories", "export my brain", "share memories", or similar:
+When the user says "sync my memories", "export my brain", "import memories", or similar, run:
 
-### Export (sending memories to another device)
-1. Read SOUL.md, .env, memory/MEMORY.md, and all memory/*.md files
-2. Format them into one block with clear headers:
-   ```
-   # SOUL.md
-   (content)
-   # .env
-   (content)
-   # memory/MEMORY.md
-   (content)
-   # memory/2026-04-06.md
-   (content)
-   ```
-3. Copy to clipboard using `pbcopy` (Mac) or `xclip` (Linux)
-4. Tell the user: "Copied. Paste this into your other Oulala."
+```bash
+./bin/sync.sh
+```
 
-### Import (receiving memories from another device)
-When the user says "import memories", "sync from my other device", or pastes a large block of memories:
-1. Parse the incoming block by headers
-2. For each file, intelligently merge with existing content — NEVER erase anything
-3. If both sides have the same person/fact, keep the most detailed version
-4. Save the merged files
-5. Tell the user what was added or updated
+It will ask them to export (copy to clipboard) or import (paste from another device). The import uses Claude to intelligently merge memories without erasing anything.
 
 ## When You're Idle
 
