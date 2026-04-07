@@ -10,12 +10,10 @@ if [ "$(id -u)" = "0" ]; then
   echo ""
   read -p "Create user 'oulala' and continue? [y/N] " answer
   if [[ "$answer" =~ ^[Yy]$ ]]; then
-    # Create user if doesn't exist
     if ! id -u oulala &>/dev/null; then
       useradd -m -s /bin/bash oulala
       echo "Created user 'oulala'"
     fi
-    # Copy SSH keys so user can SSH in directly
     if [ -f /root/.ssh/authorized_keys ]; then
       mkdir -p /home/oulala/.ssh
       cp /root/.ssh/authorized_keys /home/oulala/.ssh/authorized_keys
@@ -23,7 +21,6 @@ if [ "$(id -u)" = "0" ]; then
       chmod 700 /home/oulala/.ssh
       echo "Copied SSH keys — you can SSH in as: ssh oulala@$(hostname -I | awk '{print $1}')"
     fi
-    # Run install as oulala user
     echo "Switching to 'oulala' user and installing..."
     exec su - oulala -c "curl -sL oulala-ai.vercel.app/install | bash"
   else
@@ -43,14 +40,9 @@ curl -fsSL https://claude.ai/install.sh | bash
 
 echo "Claude Code version: $(claude -v 2>/dev/null)"
 
-# Copy defaults on first install only
-if [ ! -f "$OULALA_DIR/SOUL.md" ]; then
-  cp "$OULALA_DIR/defaults/SOUL.md" "$OULALA_DIR/SOUL.md"
-  echo "Created SOUL.md — edit it to customize your AI's personality."
-fi
-
+# Create .env on first install
 if [ ! -f "$OULALA_DIR/.env" ]; then
-  cp "$OULALA_DIR/defaults/.env.example" "$OULALA_DIR/.env"
+  touch "$OULALA_DIR/.env"
 fi
 
 echo ""

@@ -1,29 +1,13 @@
 #!/bin/bash
 set -e
 
-OULALA_DIR="$HOME/.oulala"
-MEMORY_DIR="$OULALA_DIR/memory"
+BRAIN_DIR="$HOME/.oulala/brain"
 EXPORT=""
 
-if [ -f "$OULALA_DIR/SOUL.md" ]; then
-  EXPORT+="# SOUL.md"$'\n'
-  EXPORT+="$(cat "$OULALA_DIR/SOUL.md")"$'\n\n'
-fi
-
-if [ -f "$OULALA_DIR/.env" ]; then
-  EXPORT+="# .env"$'\n'
-  EXPORT+="$(cat "$OULALA_DIR/.env")"$'\n\n'
-fi
-
-if [ -f "$MEMORY_DIR/MEMORY.md" ]; then
-  EXPORT+="# memory/MEMORY.md"$'\n'
-  EXPORT+="$(cat "$MEMORY_DIR/MEMORY.md")"$'\n\n'
-fi
-
-for f in "$MEMORY_DIR"/????-??-??.md; do
+for f in "$BRAIN_DIR"/*.md; do
   [ -f "$f" ] || continue
   BASENAME=$(basename "$f")
-  EXPORT+="# memory/$BASENAME"$'\n'
+  EXPORT+="# $BASENAME"$'\n'
   EXPORT+="$(cat "$f")"$'\n\n'
 done
 
