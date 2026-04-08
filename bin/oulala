@@ -18,11 +18,16 @@ build_channel_flags() {
 case "$CMD" in
   start)
     cd "$OULALA_DIR"
-    CHANNEL_FLAGS=$(build_channel_flags)
+    ARGS="--dangerously-skip-permissions --name Oulala --remote-control"
+    if [ -f "$CHANNELS_FILE" ]; then
+      while IFS= read -r channel; do
+        [ -n "$channel" ] && ARGS="$ARGS --channels $channel"
+      done < "$CHANNELS_FILE"
+    fi
     if command -v caffeinate &> /dev/null; then
-      eval caffeinate -s claude --dangerously-skip-permissions --name '"Oulala"' --remote-control $CHANNEL_FLAGS '"$@"'
+      caffeinate -s claude $ARGS "$@"
     else
-      eval claude --dangerously-skip-permissions --name '"Oulala"' --remote-control $CHANNEL_FLAGS '"$@"'
+      claude $ARGS "$@"
     fi
     ;;
 
