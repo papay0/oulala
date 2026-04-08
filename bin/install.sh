@@ -22,12 +22,12 @@ if [ "$(id -u)" = "0" ]; then
       echo "Copied SSH keys — you can SSH in as: ssh oulala@$(hostname -I | awk '{print $1}')"
     fi
     echo "Switching to 'oulala' user and installing..."
-    exec su - oulala -c "curl -sL oulala-ai.vercel.app/install | bash"
+    exec su - oulala -c "curl -sL oulala.app/install | bash"
   else
     echo "To install manually:"
     echo "  adduser oulala"
     echo "  su - oulala"
-    echo "  curl -sL oulala-ai.vercel.app/install | bash"
+    echo "  curl -sL oulala.app/install | bash"
     exit 1
   fi
 fi

@@ -1,6 +1,6 @@
 # Oulala
 
-[oulala-ai.vercel.app](https://oulala-ai.vercel.app)
+[oulala.app](https://oulala.app)
 
 Your personal AI assistant. One command to install.
 
@@ -9,7 +9,7 @@ Oulala turns [Claude Code](https://code.claude.com) into a personal AI that live
 ## Install
 
 ```bash
-curl -sL oulala-ai.vercel.app/install | bash
+curl -sL oulala.app/install | bash
 ```
 
 ## Commands
