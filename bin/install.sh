@@ -38,9 +38,7 @@ echo "Installing Oulala..."
 echo "Installing latest Claude Code..."
 curl -fsSL https://claude.ai/install.sh | bash
 
-echo "Claude Code version: $(claude -v 2>/dev/null)"
-
-# Set up brain/ from defaults on first install
+# Set up brain/ from defaults
 mkdir -p "$OULALA_DIR/brain"
 for f in "$OULALA_DIR/defaults/"*.md; do
   [ -f "$f" ] || continue
@@ -51,19 +49,19 @@ for f in "$OULALA_DIR/defaults/"*.md; do
   fi
 done
 
-# Create .env
-if [ ! -f "$OULALA_DIR/.env" ]; then
-  touch "$OULALA_DIR/.env"
+[ ! -f "$OULALA_DIR/.env" ] && touch "$OULALA_DIR/.env"
+
+# Add oulala to PATH if not already
+if ! command -v oulala &> /dev/null; then
+  ln -sf "$OULALA_DIR/bin/oulala" "$HOME/.local/bin/oulala" 2>/dev/null || \
+    echo "Add ~/.oulala/bin to your PATH to use the 'oulala' command."
 fi
 
 echo ""
-echo "Oulala is installed! Starting your assistant..."
+echo "Oulala is installed!"
 echo "Edit ~/.oulala/brain/SOUL.md to customize your AI's personality."
 echo ""
+echo "Starting Oulala..."
+echo ""
 
-cd "$OULALA_DIR"
-if command -v caffeinate &> /dev/null; then
-  caffeinate -s claude --dangerously-skip-permissions --name "Oulala" --remote-control
-else
-  claude --dangerously-skip-permissions --name "Oulala" --remote-control
-fi
+exec "$OULALA_DIR/bin/oulala" start

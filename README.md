@@ -12,7 +12,14 @@ Oulala turns [Claude Code](https://code.claude.com) into a personal AI that live
 curl -sL oulala-ai.vercel.app/install | bash
 ```
 
-This installs Claude Code (if needed), sets up Oulala, and starts a session with remote control — open the Claude Code app on your phone and connect.
+## Commands
+
+```
+oulala start       Start Oulala with remote control
+oulala update      Pull latest updates and merge
+oulala sync setup  Set up cross-device memory sync
+oulala help        Show all commands
+```
 
 ## What it can do
 
@@ -32,38 +39,22 @@ All on your machine. Your data stays local.
 
 Oulala is a configuration layer on top of Claude Code:
 
-- **brain/SOUL.md** defines your AI's personality — rename it, make it funny, make it serious, make it yours
-- **brain/** is where it remembers things about you — plain markdown you can read and edit
-- **skills/** teach it new abilities — each skill is just a markdown file
-- **.env** stores API keys for skills (Oura, etc.)
+- **brain/SOUL.md** — your AI's personality
+- **brain/** — where it remembers things about you
+- **skills/** — teach it new abilities (each skill is a markdown file)
+- **.env** — API keys for skills
 
 ## Customize
 
-**Change the personality** — edit `~/.oulala/brain/SOUL.md`
-
-**Add a skill** — create `~/.oulala/skills/your-skill/SKILL.md`
-
-**Add an API key** — edit `~/.oulala/.env`
-
-**Update** — tell your AI "update yourself"
-
-## Sync across devices
-
-Run Oulala on your Mac and your VPS with the same memories:
-
-```bash
-# On your main device:
-"set up sync"
-
-# On a new device after installing:
-"connect my brain"
 ```
-
-Your memories sync automatically to a private GitHub repo. API keys stay per-device.
+~/.oulala/brain/SOUL.md    Change personality
+~/.oulala/skills/*/SKILL.md    Add a skill
+~/.oulala/.env    Add API keys
+```
 
 ## Built with Claude Code, for Claude Code
 
-Oulala is 100% built on the Anthropic stack. No wrapper, no custom runtime, no third-party agent. Your Claude subscription, used directly.
+No wrapper. No custom runtime. Your Claude subscription, used directly.
 
 ## License
 
