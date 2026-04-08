@@ -24,19 +24,10 @@ case "$CMD" in
         [ -n "$channel" ] && ARGS="$ARGS --channels $channel"
       done < "$CHANNELS_FILE"
     fi
-    # Run in tmux if available and not already in tmux
-    if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-      if command -v caffeinate &> /dev/null; then
-        exec tmux new-session -s oulala "caffeinate -s claude $ARGS $*"
-      else
-        exec tmux new-session -s oulala "claude $ARGS $*"
-      fi
+    if command -v caffeinate &> /dev/null; then
+      caffeinate -s claude $ARGS "$@"
     else
-      if command -v caffeinate &> /dev/null; then
-        caffeinate -s claude $ARGS "$@"
-      else
-        claude $ARGS "$@"
-      fi
+      claude $ARGS "$@"
     fi
     ;;
 
