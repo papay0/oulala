@@ -35,7 +35,7 @@ for default_file in "$OULALA_DIR/defaults/"*.md; do
     echo "New file: brain/$filename"
   elif ! diff -q "$default_file" "$user_file" > /dev/null 2>&1; then
     echo "Merging updates into brain/$filename..."
-    claude -p "You are merging an updated template into a user's customized file.
+    claude --dangerously-skip-permissions -p "You are merging an updated template into a user's customized file.
 
 TEMPLATE (new version from developers):
 $(cat "$default_file")

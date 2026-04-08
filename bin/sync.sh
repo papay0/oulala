@@ -15,7 +15,7 @@ ai_merge() {
 
   [ -z "$local_content" ] || [ -z "$remote_content" ] && return
 
-  local merged=$(claude -p "Merge these two versions of $file. Keep ALL content from both. Never delete anything.
+  local merged=$(claude --dangerously-skip-permissions -p "Merge these two versions of $file. Keep ALL content from both. Never delete anything.
 
 VERSION A (this device):
 $local_content
