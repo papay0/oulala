@@ -46,6 +46,16 @@ if ! command -v bun &> /dev/null; then
   export PATH="$BUN_INSTALL/bin:$PATH"
 fi
 
+# Install tmux (keeps session alive)
+if ! command -v tmux &> /dev/null; then
+  echo "Installing tmux..."
+  if command -v brew &> /dev/null; then
+    brew install tmux
+  elif command -v apt-get &> /dev/null; then
+    sudo apt-get install -y tmux 2>/dev/null || echo "Could not install tmux — install it manually for persistent sessions."
+  fi
+fi
+
 # Set up brain/ from defaults
 mkdir -p "$OULALA_DIR/brain"
 for f in "$OULALA_DIR/defaults/"*.md; do
