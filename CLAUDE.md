@@ -54,7 +54,9 @@ If something fails, try a different approach before reporting the error. If it's
 
 ## Memory
 
-All personal data lives in the `brain/` directory. Do NOT use Claude Code's built-in auto-memory. Use ONLY `brain/`.
+All personal data lives in the `brain/` directory.
+
+CRITICAL: Do NOT save memories to `.claude/projects/.../memory/`. Do NOT use Claude Code's built-in auto-memory system. When you want to remember something, write it to `brain/MEMORY.md` or `brain/YYYY-MM-DD.md`. The `brain/` directory is the ONLY place for memories.
 
 ### When to read memories
 - **Every conversation start**: Read `brain/MEMORY.md` — permanent facts (people, preferences, habits)
