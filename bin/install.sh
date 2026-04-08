@@ -60,13 +60,13 @@ done
 [ ! -f "$OULALA_DIR/.env" ] && touch "$OULALA_DIR/.env"
 
 # Add oulala to PATH
-if ! echo "$PATH" | grep -q "$OULALA_DIR/bin"; then
-  SHELL_RC="$HOME/.bashrc"
-  [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
+SHELL_RC="$HOME/.bashrc"
+[ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
+if ! grep -q '.oulala/bin' "$SHELL_RC" 2>/dev/null; then
   echo 'export PATH="$HOME/.oulala/bin:$PATH"' >> "$SHELL_RC"
-  export PATH="$OULALA_DIR/bin:$PATH"
   echo "Added ~/.oulala/bin to PATH"
 fi
+export PATH="$OULALA_DIR/bin:$PATH"
 
 echo ""
 echo "Oulala is installed!"
