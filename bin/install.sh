@@ -59,10 +59,13 @@ done
 
 [ ! -f "$OULALA_DIR/.env" ] && touch "$OULALA_DIR/.env"
 
-# Add oulala to PATH if not already
-if ! command -v oulala &> /dev/null; then
-  ln -sf "$OULALA_DIR/bin/oulala" "$HOME/.local/bin/oulala" 2>/dev/null || \
-    echo "Add ~/.oulala/bin to your PATH to use the 'oulala' command."
+# Add oulala to PATH
+if ! echo "$PATH" | grep -q "$OULALA_DIR/bin"; then
+  SHELL_RC="$HOME/.bashrc"
+  [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
+  echo 'export PATH="$HOME/.oulala/bin:$PATH"' >> "$SHELL_RC"
+  export PATH="$OULALA_DIR/bin:$PATH"
+  echo "Added ~/.oulala/bin to PATH"
 fi
 
 echo ""

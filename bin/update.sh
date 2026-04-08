@@ -55,4 +55,15 @@ Rules:
   fi
 done
 
+# Ensure oulala is in PATH
+if ! echo "$PATH" | grep -q "$OULALA_DIR/bin"; then
+  SHELL_RC="$HOME/.bashrc"
+  [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
+  if ! grep -q '.oulala/bin' "$SHELL_RC" 2>/dev/null; then
+    echo 'export PATH="$HOME/.oulala/bin:$PATH"' >> "$SHELL_RC"
+    echo "Added ~/.oulala/bin to PATH (restart your shell or run: source $SHELL_RC)"
+  fi
+  export PATH="$OULALA_DIR/bin:$PATH"
+fi
+
 echo "Oulala is up to date!"
