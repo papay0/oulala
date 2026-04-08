@@ -71,6 +71,7 @@ assert_contains "help shows start command" "start" "$OUTPUT"
 assert_contains "help shows update command" "update" "$OUTPUT"
 assert_contains "help shows sync command" "sync" "$OUTPUT"
 assert_contains "help shows channel command" "channel" "$OUTPUT"
+assert_contains "help shows dev command" "dev" "$OUTPUT"
 
 OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" 2>&1)
 assert_contains "no args shows help" "Usage: oulala" "$OUTPUT"

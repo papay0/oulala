@@ -127,6 +127,15 @@ case "$CMD" in
     esac
     ;;
 
+  dev)
+    cd "$OULALA_DIR"
+    if command -v caffeinate &> /dev/null; then
+      caffeinate -s claude --dangerously-skip-permissions --name "Oulala-Dev" --remote-control --append-system-prompt "You are in DEVELOPMENT MODE. You are a software engineer building Oulala, not the assistant. Read dev/INSTRUCTIONS.md before your first response." "$@"
+    else
+      claude --dangerously-skip-permissions --name "Oulala-Dev" --remote-control --append-system-prompt "You are in DEVELOPMENT MODE. You are a software engineer building Oulala, not the assistant. Read dev/INSTRUCTIONS.md before your first response." "$@"
+    fi
+    ;;
+
   update)
     exec "$OULALA_DIR/bin/update.sh"
     ;;
@@ -142,6 +151,7 @@ case "$CMD" in
     echo ""
     echo "Commands:"
     echo "  start              Start Oulala with remote control"
+    echo "  dev                Start in dev mode (software engineer)"
     echo "  channel add <name> Set up a messaging channel (telegram, discord)"
     echo "  channel list       Show configured channels"
     echo "  update             Pull latest updates and merge"
