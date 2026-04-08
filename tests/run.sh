@@ -70,6 +70,7 @@ assert_contains "help shows usage" "Usage: oulala" "$OUTPUT"
 assert_contains "help shows start command" "start" "$OUTPUT"
 assert_contains "help shows update command" "update" "$OUTPUT"
 assert_contains "help shows sync command" "sync" "$OUTPUT"
+assert_contains "help shows channel command" "channel" "$OUTPUT"
 
 OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" 2>&1)
 assert_contains "no args shows help" "Usage: oulala" "$OUTPUT"
@@ -82,6 +83,13 @@ assert_contains "-h shows help" "Usage: oulala" "$OUTPUT"
 
 OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" badcommand 2>&1 || true)
 assert_contains "unknown command error" "Unknown command" "$OUTPUT"
+
+OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" channel 2>&1 || true)
+assert_contains "channel help shows add" "add" "$OUTPUT"
+assert_contains "channel help shows list" "list" "$OUTPUT"
+
+OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" channel add badplatform 2>&1 || true)
+assert_contains "channel add unknown shows supported" "Supported channels" "$OUTPUT"
 
 # ─── Install tests ───
 

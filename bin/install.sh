@@ -38,6 +38,14 @@ echo "Installing Oulala..."
 echo "Installing latest Claude Code..."
 curl -fsSL https://claude.ai/install.sh | bash
 
+# Install Bun (required for channel plugins)
+if ! command -v bun &> /dev/null; then
+  echo "Installing Bun..."
+  curl -fsSL https://bun.sh/install | bash
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+fi
+
 # Set up brain/ from defaults
 mkdir -p "$OULALA_DIR/brain"
 for f in "$OULALA_DIR/defaults/"*.md; do

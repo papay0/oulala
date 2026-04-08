@@ -3,17 +3,123 @@
 set -e
 
 OULALA_DIR="${OULALA_DIR:-$HOME/.oulala}"
+CHANNELS_FILE="$OULALA_DIR/.channels"
 CMD="$1"
 shift 2>/dev/null || true
+
+# Build --channels flags from configured channels
+build_channel_flags() {
+  [ -f "$CHANNELS_FILE" ] || return
+  while IFS= read -r channel; do
+    [ -n "$channel" ] && echo -n "--channels $channel "
+  done < "$CHANNELS_FILE"
+}
 
 case "$CMD" in
   start)
     cd "$OULALA_DIR"
+    CHANNEL_FLAGS=$(build_channel_flags)
     if command -v caffeinate &> /dev/null; then
-      caffeinate -s claude --dangerously-skip-permissions --name "Oulala" --remote-control "$@"
+      eval caffeinate -s claude --dangerously-skip-permissions --name '"Oulala"' --remote-control $CHANNEL_FLAGS '"$@"'
     else
-      claude --dangerously-skip-permissions --name "Oulala" --remote-control "$@"
+      eval claude --dangerously-skip-permissions --name '"Oulala"' --remote-control $CHANNEL_FLAGS '"$@"'
     fi
+    ;;
+
+  channel)
+    SUBCMD="$1"
+    shift 2>/dev/null || true
+
+    case "$SUBCMD" in
+      add)
+        PLATFORM="$1"
+        case "$PLATFORM" in
+          telegram)
+            echo "Setting up Telegram..."
+            echo ""
+            echo "1. Open Telegram and search for @BotFather"
+            echo "2. Send /newbot and follow the prompts"
+            echo "3. Copy the token BotFather gives you"
+            echo ""
+            read -p "Paste your bot token: " TOKEN
+            if [ -z "$TOKEN" ]; then
+              echo "No token provided."
+              exit 1
+            fi
+            # Install plugin if not already
+            echo "Installing Telegram plugin..."
+            claude --dangerously-skip-permissions -p "/plugin install telegram@claude-plugins-official" 2>/dev/null || true
+            # Save token
+            mkdir -p "$HOME/.claude/channels/telegram"
+            echo "TELEGRAM_BOT_TOKEN=$TOKEN" > "$HOME/.claude/channels/telegram/.env"
+            # Register channel
+            echo "plugin:telegram@claude-plugins-official" >> "$CHANNELS_FILE"
+            sort -u "$CHANNELS_FILE" -o "$CHANNELS_FILE"
+            echo ""
+            echo "Telegram is set up! Next:"
+            echo "  1. Run: oulala start"
+            echo "  2. Message your bot on Telegram"
+            echo "  3. It will send you a pairing code"
+            echo "  4. In the session, run: /telegram:access pair <code>"
+            echo "  5. Then: /telegram:access policy allowlist"
+            ;;
+          discord)
+            echo "Setting up Discord..."
+            echo ""
+            echo "1. Go to discord.com/developers/applications"
+            echo "2. Create a new application, go to Bot section"
+            echo "3. Enable Message Content Intent"
+            echo "4. Copy the bot token"
+            echo ""
+            read -p "Paste your bot token: " TOKEN
+            if [ -z "$TOKEN" ]; then
+              echo "No token provided."
+              exit 1
+            fi
+            claude --dangerously-skip-permissions -p "/plugin install discord@claude-plugins-official" 2>/dev/null || true
+            mkdir -p "$HOME/.claude/channels/discord"
+            echo "DISCORD_BOT_TOKEN=$TOKEN" > "$HOME/.claude/channels/discord/.env"
+            echo "plugin:discord@claude-plugins-official" >> "$CHANNELS_FILE"
+            sort -u "$CHANNELS_FILE" -o "$CHANNELS_FILE"
+            echo ""
+            echo "Discord is set up! Next:"
+            echo "  1. Invite the bot to your server (OAuth2 > URL Generator > bot scope)"
+            echo "  2. Run: oulala start"
+            echo "  3. DM your bot on Discord for a pairing code"
+            echo "  4. In the session: /discord:access pair <code>"
+            echo "  5. Then: /discord:access policy allowlist"
+            ;;
+          *)
+            echo "Supported channels: telegram, discord"
+            exit 1
+            ;;
+        esac
+        ;;
+      list)
+        if [ -f "$CHANNELS_FILE" ]; then
+          echo "Configured channels:"
+          cat "$CHANNELS_FILE"
+        else
+          echo "No channels configured. Run: oulala channel add telegram"
+        fi
+        ;;
+      remove)
+        PLATFORM="$1"
+        if [ -f "$CHANNELS_FILE" ]; then
+          grep -v "$PLATFORM" "$CHANNELS_FILE" > "$CHANNELS_FILE.tmp" 2>/dev/null || true
+          mv "$CHANNELS_FILE.tmp" "$CHANNELS_FILE"
+          echo "Removed $PLATFORM."
+        fi
+        ;;
+      *)
+        echo "Usage: oulala channel <add|list|remove> [platform]"
+        echo ""
+        echo "  add telegram   Set up Telegram bot"
+        echo "  add discord    Set up Discord bot"
+        echo "  list           Show configured channels"
+        echo "  remove <name>  Remove a channel"
+        ;;
+    esac
     ;;
 
   update)
@@ -30,13 +136,12 @@ case "$CMD" in
     echo "Usage: oulala <command>"
     echo ""
     echo "Commands:"
-    echo "  start    Start Oulala with remote control"
-    echo "  update   Pull latest updates and merge"
-    echo "  sync     Sync memories across devices"
-    echo "             setup  — set up sync (first time)"
-    echo "             pull   — pull latest memories"
-    echo "             push   — push local memories"
-    echo "  help     Show this help"
+    echo "  start              Start Oulala with remote control"
+    echo "  channel add <name> Set up a messaging channel (telegram, discord)"
+    echo "  channel list       Show configured channels"
+    echo "  update             Pull latest updates and merge"
+    echo "  sync setup         Set up cross-device memory sync"
+    echo "  help               Show this help"
     echo ""
     echo "Edit ~/.oulala/brain/SOUL.md to customize your AI's personality."
     ;;

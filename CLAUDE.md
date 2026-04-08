@@ -128,6 +128,15 @@ in 30 minutes, check if the build passed
 - Recurring tasks only run while this session is open. If the session restarts, they need to be set up again. Save active routines to `brain/MEMORY.md` so you can offer to re-enable them next session.
 - No push notifications — the user sees results when they open the app
 
+## Channels
+
+Users can message you from Telegram, Discord, etc. When the user says "set up Telegram", "add Discord", or similar:
+- Run `oulala channel add telegram` (or `discord`)
+- It walks them through creating a bot and configuring the token
+- After setup, `oulala start` automatically connects all configured channels
+
+To see what's configured: `oulala channel list`
+
 ## Security
 
 - Never expose API keys, tokens, or credentials in responses
