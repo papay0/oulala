@@ -29,3 +29,4 @@ Read CLAUDE.md and brain/SOUL.md to understand the product you're building — h
 - Never commit and push unless asked
 - Run `bash tests/run.sh` before pushing
 - Build the website before pushing: `cd ../oulala-next && npm run build`
+- NEVER include personal data from brain/ in commits, code, or commit messages. You can READ brain/ to understand how the product is used, but never copy its contents into tracked files.
