@@ -155,6 +155,10 @@ case "$CMD" in
     exec "$OULALA_DIR/bin/sync.sh" "$@"
     ;;
 
+  version|-v|--version)
+    cat "$OULALA_DIR/VERSION"
+    ;;
+
   help|-h|--help|"")
     echo "Oulala — your personal AI assistant"
     echo ""

@@ -1,3 +1,24 @@
 #!/bin/bash
+
+# Auto-bump version
+TODAY=$(date +%Y.%m.%d)
+VERSION_FILE="$(git rev-parse --show-toplevel)/VERSION"
+CURRENT=$(cat "$VERSION_FILE" 2>/dev/null || echo "")
+
+if [[ "$CURRENT" == "$TODAY" ]]; then
+  # First bump of the day
+  echo "$TODAY.1" > "$VERSION_FILE"
+elif [[ "$CURRENT" == "$TODAY".* ]]; then
+  # Already bumped today — increment suffix
+  SUFFIX="${CURRENT##*.}"
+  echo "$TODAY.$((SUFFIX + 1))" > "$VERSION_FILE"
+else
+  # New day
+  echo "$TODAY" > "$VERSION_FILE"
+fi
+
+git add "$VERSION_FILE"
+
+# Run tests
 echo "Running tests..."
 bash tests/run.sh
