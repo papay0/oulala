@@ -2,7 +2,7 @@
 # Oulala CLI — your personal AI assistant
 set -e
 
-OULALA_DIR="${OULALA_DIR:-$HOME/.oulala}"
+OULALA_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CHANNELS_FILE="$OULALA_DIR/.channels"
 CMD="$1"
 shift 2>/dev/null || true
@@ -160,7 +160,7 @@ case "$CMD" in
     ;;
 
   help|-h|--help|"")
-    echo "Oulala — your personal AI assistant"
+    echo "Oulala — your personal AI assistant (v$(cat "$OULALA_DIR/VERSION" 2>/dev/null || echo "?"))"
     echo ""
     echo "Usage: oulala <command>"
     echo ""
