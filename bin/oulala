@@ -26,10 +26,30 @@ case "$CMD" in
     fi
     mkdir -p "$OULALA_DIR/logs"
     LOG_FILE="$OULALA_DIR/logs/oulala.log"
-    if command -v caffeinate &> /dev/null; then
-      caffeinate -s claude $ARGS "$@" 2>> "$LOG_FILE"
+    # Background mode — server mode, survives SSH disconnect
+    if [ "$1" = "--bg" ] || [ "$1" = "--background" ]; then
+      shift
+      BG_ARGS="--dangerously-skip-permissions --name Oulala"
+      if [ -f "$CHANNELS_FILE" ]; then
+        while IFS= read -r channel; do
+          [ -n "$channel" ] && BG_ARGS="$BG_ARGS --channels $channel"
+        done < "$CHANNELS_FILE"
+      fi
+      if command -v screen &> /dev/null; then
+        screen -dmS oulala bash -c "claude remote-control $BG_ARGS $* 2>> $LOG_FILE"
+        echo "Oulala started in background (server mode)."
+        echo "Talk to it from Telegram, Claude Code app, or claude.ai/code"
+        echo "View terminal: screen -r oulala"
+      else
+        nohup claude remote-control $BG_ARGS "$@" >> "$LOG_FILE" 2>&1 &
+        echo "Oulala started in background (PID: $!). Logs: oulala logs"
+      fi
     else
-      claude $ARGS "$@" 2>> "$LOG_FILE"
+      if command -v caffeinate &> /dev/null; then
+        caffeinate -s claude $ARGS "$@" 2>> "$LOG_FILE"
+      else
+        claude $ARGS "$@" 2>> "$LOG_FILE"
+      fi
     fi
     ;;
 
@@ -166,6 +186,7 @@ case "$CMD" in
     echo ""
     echo "Commands:"
     echo "  start              Start Oulala with remote control"
+    echo "  start --bg         Start in background (survives SSH disconnect)"
     echo "  dev                Start in dev mode (software engineer)"
     echo "  logs               View recent logs (oulala logs 50)"
     echo "  channel add <name> Set up a messaging channel (telegram, discord)"
