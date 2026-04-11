@@ -26,23 +26,18 @@ case "$CMD" in
     fi
     mkdir -p "$OULALA_DIR/logs"
     LOG_FILE="$OULALA_DIR/logs/oulala.log"
-    # Background mode — server mode, survives SSH disconnect
+    # Background mode — interactive session in screen, survives SSH disconnect
     if [ "$1" = "--bg" ] || [ "$1" = "--background" ]; then
       shift
-      BG_ARGS="--dangerously-skip-permissions --name Oulala"
-      if [ -f "$CHANNELS_FILE" ]; then
-        while IFS= read -r channel; do
-          [ -n "$channel" ] && BG_ARGS="$BG_ARGS --channels $channel"
-        done < "$CHANNELS_FILE"
-      fi
       if command -v screen &> /dev/null; then
-        screen -dmS oulala bash -c "claude remote-control $BG_ARGS $* 2>> $LOG_FILE"
-        echo "Oulala started in background (server mode)."
+        screen -dmS oulala bash -c "cd $OULALA_DIR && claude $ARGS $* 2>> $LOG_FILE"
+        echo "Oulala started in background."
         echo "Talk to it from Telegram, Claude Code app, or claude.ai/code"
-        echo "View terminal: screen -r oulala"
+        echo "Reattach: screen -r oulala"
       else
-        nohup claude remote-control $BG_ARGS "$@" >> "$LOG_FILE" 2>&1 &
-        echo "Oulala started in background (PID: $!). Logs: oulala logs"
+        echo "screen is required for background mode. Install it:"
+        echo "  sudo apt install screen"
+        exit 1
       fi
     else
       if command -v caffeinate &> /dev/null; then
