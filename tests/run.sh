@@ -108,7 +108,8 @@ cp "$PROJECT_DIR/bin/install.sh" "$MOCK_DIR/bin/install.sh"
 # Test brain setup logic (extract just that part)
 OULALA_DIR="$MOCK_DIR"
 mkdir -p "$OULALA_DIR/brain"
-for f in "$OULALA_DIR/defaults/"*.md; do
+cp "$PROJECT_DIR/defaults/routines.json" "$MOCK_DIR/defaults/routines.json"
+for f in "$OULALA_DIR/defaults/"*; do
   [ -f "$f" ] || continue
   BASENAME=$(basename "$f")
   if [ ! -f "$OULALA_DIR/brain/$BASENAME" ]; then
@@ -118,10 +119,11 @@ done
 
 assert_file_exists "copies SOUL.md to brain/" "$MOCK_DIR/brain/SOUL.md"
 assert_file_exists "copies MEMORY.md to brain/" "$MOCK_DIR/brain/MEMORY.md"
+assert_file_exists "copies routines.json to brain/" "$MOCK_DIR/brain/routines.json"
 
 # Test it doesn't overwrite existing files
 echo "customized" > "$MOCK_DIR/brain/SOUL.md"
-for f in "$OULALA_DIR/defaults/"*.md; do
+for f in "$OULALA_DIR/defaults/"*; do
   [ -f "$f" ] || continue
   BASENAME=$(basename "$f")
   if [ ! -f "$OULALA_DIR/brain/$BASENAME" ]; then
@@ -189,6 +191,7 @@ echo "Project structure"
 assert_file_exists "CLAUDE.md exists" "$PROJECT_DIR/CLAUDE.md"
 assert_file_exists "defaults/SOUL.md exists" "$PROJECT_DIR/defaults/SOUL.md"
 assert_file_exists "defaults/MEMORY.md exists" "$PROJECT_DIR/defaults/MEMORY.md"
+assert_file_exists "defaults/routines.json exists" "$PROJECT_DIR/defaults/routines.json"
 assert_file_exists "bin/oulala exists" "$PROJECT_DIR/bin/oulala"
 assert_file_exists "bin/install.sh exists" "$PROJECT_DIR/bin/install.sh"
 assert_file_exists "bin/sync.sh exists" "$PROJECT_DIR/bin/sync.sh"
@@ -212,6 +215,16 @@ assert_contains ".gitignore has .sync" ".sync" "$GITIGNORE"
 CLAUDE=$(cat "$PROJECT_DIR/CLAUDE.md")
 assert_contains "CLAUDE.md references brain/SOUL.md" "brain/SOUL.md" "$CLAUDE"
 assert_contains "CLAUDE.md references brain/MEMORY.md" "brain/MEMORY.md" "$CLAUDE"
+assert_contains "CLAUDE.md references brain/routines.json" "brain/routines.json" "$CLAUDE"
+
+# Check routines.json is valid JSON
+if python3 -c "import json; json.load(open('$PROJECT_DIR/defaults/routines.json'))" 2>/dev/null; then
+  echo "  ✓ defaults/routines.json is valid JSON"
+  PASS=$((PASS + 1))
+else
+  echo "  ✗ defaults/routines.json is invalid JSON"
+  FAIL=$((FAIL + 1))
+fi
 
 # Check settings.json hooks
 SETTINGS=$(cat "$PROJECT_DIR/.claude/settings.json")

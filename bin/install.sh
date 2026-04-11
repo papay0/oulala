@@ -48,7 +48,7 @@ fi
 
 # Set up brain/ from defaults
 mkdir -p "$OULALA_DIR/brain"
-for f in "$OULALA_DIR/defaults/"*.md; do
+for f in "$OULALA_DIR/defaults/"*; do
   [ -f "$f" ] || continue
   BASENAME=$(basename "$f")
   if [ ! -f "$OULALA_DIR/brain/$BASENAME" ]; then

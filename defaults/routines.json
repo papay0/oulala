@@ -1,0 +1,16 @@
+{
+  "routines": [
+    {
+      "name": "Morning check-in",
+      "cron": "3 10 * * *",
+      "prompt": "Morning check-in: check sleep/health data, scan email for anything urgent, check today's calendar. Send a summary to the user via their messaging channel.",
+      "enabled": false
+    },
+    {
+      "name": "Evening wind-down",
+      "cron": "3 23 * * *",
+      "prompt": "Evening check-in: review today's activity, check tomorrow's calendar, nudge about bedtime. Send a summary to the user via their messaging channel.",
+      "enabled": false
+    }
+  ]
+}

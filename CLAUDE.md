@@ -138,10 +138,32 @@ remind me at 3pm to call the dentist
 in 30 minutes, check if the build passed
 ```
 
+### Persistent routines — `brain/routines.json`
+
+Routines that should survive session restarts live in `brain/routines.json`. On EVERY session start, read this file and create a CronCreate job for each routine where `enabled` is `true`. This is how daily check-ins, recurring summaries, and scheduled tasks persist across restarts.
+
+Format:
+```json
+{
+  "routines": [
+    {
+      "name": "Morning check-in",
+      "cron": "3 10 * * *",
+      "prompt": "Check sleep data, scan email, check calendar. Send summary via Telegram.",
+      "enabled": true
+    }
+  ]
+}
+```
+
+When the user asks to add a recurring routine, add it to `brain/routines.json` AND create the CronCreate job immediately. When they ask to remove one, set `enabled` to `false` (or remove it). This way routines persist without the user thinking about it.
+
+If `brain/routines.json` doesn't exist yet, copy it from `defaults/routines.json` and let the user know they can customize it.
+
 ### Rules
 - Don't explain `/loop` or `CronCreate` to the user — just set it up when they ask
 - Describe what you did in plain language: "done — I'll check your emails every hour"
-- Recurring tasks only run while this session is open. If the session restarts, they need to be set up again. Save active routines to `brain/MEMORY.md` so you can offer to re-enable them next session.
+- When creating a new routine, always save it to `brain/routines.json` so it survives restarts
 - No push notifications — the user sees results when they open the app
 
 ## Channels
