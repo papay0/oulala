@@ -216,6 +216,7 @@ CLAUDE=$(cat "$PROJECT_DIR/CLAUDE.md")
 assert_contains "CLAUDE.md references brain/SOUL.md" "brain/SOUL.md" "$CLAUDE"
 assert_contains "CLAUDE.md references brain/MEMORY.md" "brain/MEMORY.md" "$CLAUDE"
 assert_contains "CLAUDE.md references brain/routines.json" "brain/routines.json" "$CLAUDE"
+assert_contains "CLAUDE.md has proactive follow-ups section" "Proactive Follow-ups" "$CLAUDE"
 
 # Check routines.json is valid JSON
 if python3 -c "import json; json.load(open('$PROJECT_DIR/defaults/routines.json'))" 2>/dev/null; then
@@ -231,6 +232,8 @@ SETTINGS=$(cat "$PROJECT_DIR/.claude/settings.json")
 assert_contains "settings has SessionStart hook" "SessionStart" "$SETTINGS"
 assert_contains "settings has UserPromptSubmit hook" "UserPromptSubmit" "$SETTINGS"
 assert_contains "settings has Stop hook" "Stop" "$SETTINGS"
+assert_contains "settings has proactive follow-up hook" "Proactive check" "$SETTINGS"
+assert_contains "settings has day-of-week in timestamp" "%A" "$SETTINGS"
 assert_contains "settings has sync pull" "sync.sh pull" "$SETTINGS"
 assert_contains "settings has sync push" "sync.sh push" "$SETTINGS"
 

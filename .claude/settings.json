@@ -15,7 +15,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"[Time: $(date '+%Y-%m-%d %I:%M %p %Z')]\""
+            "command": "echo \"[Time: $(date '+%A, %Y-%m-%d %I:%M %p %Z')]\""
+          },
+          {
+            "type": "command",
+            "command": "echo \"[Proactive check: Does this message warrant a follow-up later? If yes, silently create a one-shot CronCreate — include context and reply_to message_id if applicable.]\""
           }
         ]
       }
