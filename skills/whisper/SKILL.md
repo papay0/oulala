@@ -1,36 +1,36 @@
 ---
 name: whisper
-description: Transcribe audio and voice messages using OpenAI Whisper API. Use when you receive a voice message on Telegram or when the user asks to transcribe audio. ALWAYS try to transcribe voice messages — never say you can't listen to them.
+description: Transcribe audio and voice messages using local Whisper. Use when you receive a voice message on Telegram or when the user asks to transcribe audio. ALWAYS try to transcribe voice messages — never say you can't listen to them. Runs locally, no API key needed.
 requires:
-  env: OPENAI_API_KEY
+  bins: whisper
 setup: |
-  1. Get an API key from https://platform.openai.com/api-keys
-  2. Add to your .env file: OPENAI_API_KEY=your_key_here
+  pip install openai-whisper
+  Also needs ffmpeg: apt install ffmpeg (Linux) or brew install ffmpeg (Mac)
 ---
 
-# Whisper — Voice Transcription
+# Whisper — Voice Transcription (Local)
 
-When you receive a voice message (from Telegram or any source), ALWAYS transcribe it. Never say "I can't listen to voice messages."
+Runs entirely on your machine. No API key. No cost. No data sent anywhere.
 
 ## Before making any call
 
 ```bash
-source .env && [ -n "$OPENAI_API_KEY" ] && echo "ready" || echo "missing"
+command -v whisper && echo "ready" || echo "missing"
 ```
 
-If missing, tell the user to add their OpenAI API key to `.env`.
+If missing: `pip install openai-whisper` and `apt install ffmpeg` (or `brew install ffmpeg` on Mac).
 
 ## Transcribe a file
 
 ```bash
-source .env && curl -s https://api.openai.com/v1/audio/transcriptions \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -F "model=whisper-1" \
-  -F "file=@/path/to/audio.ogg"
+whisper /path/to/audio.ogg --model base --device cpu --output_format txt
 ```
+
+The transcript is saved as a `.txt` file next to the audio file.
 
 ## How to respond
 
 - Transcribe first, then respond to the content naturally
 - Don't say "here's the transcription:" — just respond to what they said as if they typed it
 - If the audio is unclear, share what you got and ask for clarification
+- Never say "I can't listen to voice messages" — you CAN, use this skill
