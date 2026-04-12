@@ -23,7 +23,7 @@
           },
           {
             "type": "command",
-            "command": "echo \"[Channel rule: If this message came from Telegram or Discord AND your answer requires research (web search, API calls, checking calendar+email, etc.), you MUST reply on the channel FIRST with just a short message like 'checking...' or 'on it, one sec' — and make that your ONLY action. No other tool calls in that turn. Do the actual work in your next turn. The user sees nothing while you work, so without this they'll stare at silence for 1-2 minutes.]\""
+            "command": "echo \"[Channel rule: If from Telegram/Discord and response needs research, send a short ack ('checking...') as your ONLY first action — no other tool calls that turn.]\""
           }
         ]
       }

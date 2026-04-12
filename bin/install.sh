@@ -59,6 +59,9 @@ done
 
 [ ! -f "$OULALA_DIR/.env" ] && touch "$OULALA_DIR/.env"
 
+# Set up git hooks (auto version bump, tests on commit)
+git -C "$OULALA_DIR" config core.hooksPath .githooks 2>/dev/null || true
+
 # Add oulala to PATH
 SHELL_RC="$HOME/.bashrc"
 [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
