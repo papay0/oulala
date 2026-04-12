@@ -23,7 +23,7 @@
           },
           {
             "type": "command",
-            "command": "echo \"[Channel rule: If from Telegram/Discord and response needs research, send a short ack ('checking...') as your ONLY first action — no other tool calls that turn.]\""
+            "command": "echo \"[Channel rule: If from Telegram/Discord and response needs research, send a short ack ('checking...') on the channel FIRST, then continue working in the same turn.]\""
           }
         ]
       }
