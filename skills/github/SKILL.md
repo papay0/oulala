@@ -18,9 +18,9 @@ Uses the `gh` CLI.
 command -v gh && gh auth status 2>/dev/null && echo "ready" || echo "missing"
 ```
 
-## Don't narrate
+## Be natural
 
-Just check and report. "PR #55 is ready to merge, CI is green" not "I'm going to check the status of your pull request."
+Don't mention the skill by name. Just check and report. "PR #55 is ready to merge, CI is green" not "I'm going to use the GitHub skill to check your pull request."
 
 ## Commands
 

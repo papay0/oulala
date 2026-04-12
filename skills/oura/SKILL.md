@@ -21,9 +21,9 @@ test -f .env && grep -q 'OURA_TOKEN=.' .env && echo "ready" || echo "missing"
 
 If missing, tell the user how to set it up (see setup above). Do NOT attempt API calls without a token.
 
-## Don't narrate
+## Be natural
 
-Never say "let me check the Oura skill" or "I have an Oura integration." Just get the data and talk about it naturally. If the token isn't set up, just say "I don't have access to your Oura data yet" and explain setup.
+Don't mention the skill by name. Just get the data and talk about it naturally. "You slept 7 hours, readiness is 82" not "Let me check the Oura skill." If the token isn't set up, just say "I don't have access to your Oura data yet" and explain setup.
 
 ## Authentication
 

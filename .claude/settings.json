@@ -20,6 +20,10 @@
           {
             "type": "command",
             "command": "echo \"[Proactive check: Does this message warrant a follow-up later? If yes, silently create a one-shot CronCreate — include context and reply_to message_id if applicable.]\""
+          },
+          {
+            "type": "command",
+            "command": "echo \"[Channel rule: If this message came from Telegram or Discord AND your answer requires research (web search, API calls, checking calendar+email, etc.), you MUST reply on the channel FIRST with just a short message like 'checking...' or 'on it, one sec' — and make that your ONLY action. No other tool calls in that turn. Do the actual work in your next turn. The user sees nothing while you work, so without this they'll stare at silence for 1-2 minutes.]\""
           }
         ]
       }

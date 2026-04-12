@@ -21,9 +21,9 @@ command -v spogo && echo "ready" || echo "missing"
 
 If missing, tell the user: "You need spogo to control Spotify. Run: `brew install steipete/tap/spogo` then `spogo auth import --browser chrome`"
 
-## Don't narrate
+## Be natural
 
-Just do it. "Playing Daft Punk" not "I'm going to use the Spotify skill to search for and play Daft Punk."
+Don't mention the skill by name. Just do it. "Playing Daft Punk" not "I'm going to use the Spotify skill to play Daft Punk."
 
 ## Commands
 

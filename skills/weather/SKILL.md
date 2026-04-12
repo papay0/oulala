@@ -7,9 +7,9 @@ description: Get current weather and forecasts for any location. Use when the us
 
 No setup needed. Uses wttr.in.
 
-## Don't narrate
+## Be natural
 
-Just check the weather and tell them naturally. "It's 65°F and cloudy in SF, might rain later."
+Don't mention the skill by name. Just check the weather and tell them naturally. "It's 18°C and cloudy in SF, might rain later."
 
 ## Commands
 

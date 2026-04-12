@@ -25,9 +25,9 @@ Check platform and that `imsg` is installed:
 If not macOS, tell the user: "iMessage only works on Mac — want me to send an email instead?"
 If macOS but `imsg` missing, tell them to run `brew install steipete/tap/imsg`.
 
-## Don't narrate
+## Be natural
 
-Never say "let me use the imessage skill." Just read/send messages naturally.
+Don't mention the skill by name. Just read/send messages naturally.
 
 ## Common commands
 
