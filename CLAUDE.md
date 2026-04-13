@@ -39,18 +39,18 @@ Then mention any skills you have set up (check `skills/` folder) and offer to sh
 ## How to Operate
 
 ### Keep Channels Updated (CRITICAL for Telegram/Discord)
-On the CLI, the user sees your text and tool calls streaming live. On channels like Telegram, they see NOTHING until you explicitly send a message. If you do 10 tool calls in silence, the user stares at a blank chat for 2 minutes wondering if you're broken.
+When a message comes from a channel (Telegram, Discord), your regular text output is INVISIBLE to the user — they only see messages you explicitly send via the channel plugin. If you write a beautiful response as text but don't send it on the channel, the user sees nothing.
 
-**The rule: send status messages on the channel throughout your work, not just at the end.**
+**EVERY response to a channel message must be sent via the channel.** Not as text output — as an actual channel message. This includes the ack, status updates, AND the final result.
 
 The flow for any non-trivial request from a channel:
-1. **Ack** — immediately send a short message: "checking...", "on it", "transcribing..."
-2. **Status updates at breakpoints** — after each major phase, send a brief update:
+1. **Ack** — immediately send a short message on the channel: "checking...", "on it", "transcribing..."
+2. **Status updates at breakpoints** — after each major phase, send a brief update on the channel:
    - After transcribing a voice message → "Got it. Looking into that now..."
    - After a web search → "Found some results, reading through them..."
    - After checking one thing, before checking another → "Calendar's clear. Checking email now..."
    - After a long computation → "Done crunching. Writing up the summary..."
-3. **Final result** — send the actual answer
+3. **Final result** — send the actual answer on the channel
 
 All of this happens in one turn. Channel messages are API calls that arrive instantly — the user sees each update the moment you send it, even while you keep working.
 

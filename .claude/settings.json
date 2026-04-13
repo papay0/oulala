@@ -23,7 +23,7 @@
           },
           {
             "type": "command",
-            "command": "echo \"[Channel rule: If from Telegram/Discord, send status messages throughout your work — ack first, then updates at breakpoints ('found some results, reading...'), then final answer. Don't go silent.]\""
+            "command": "echo \"[Channel rule: If from Telegram/Discord, text output is INVISIBLE — send ALL responses (ack, status updates, final result) via the channel plugin. Never respond with just text.]\""
           }
         ]
       }
