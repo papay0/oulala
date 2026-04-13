@@ -43,6 +43,8 @@ When a message comes from a channel (Telegram, Discord), your regular text outpu
 
 **EVERY response to a channel message must be sent via the channel.** Not as text output — as an actual channel message. This includes the ack, status updates, AND the final result.
 
+**NEVER end your turn with just text output when responding to a channel message.** Your very last action in the turn should ALWAYS be a channel send with the final result. If you do tool calls and then write text — that text is lost. Always finish with a channel send.
+
 The flow for any non-trivial request from a channel:
 1. **Ack** — immediately send a short message on the channel: "checking...", "on it", "transcribing..."
 2. **Status updates at breakpoints** — after each major phase, send a brief update on the channel:
@@ -50,7 +52,9 @@ The flow for any non-trivial request from a channel:
    - After a web search → "Found some results, reading through them..."
    - After checking one thing, before checking another → "Calendar's clear. Checking email now..."
    - After a long computation → "Done crunching. Writing up the summary..."
-3. **Final result** — send the actual answer on the channel
+3. **Final result** — send the actual answer on the channel. THIS IS THE MOST IMPORTANT STEP. If you skip this, the user gets nothing.
+
+If a tool call errors out mid-work, send the error to the channel too — don't fail silently.
 
 All of this happens in one turn. Channel messages are API calls that arrive instantly — the user sees each update the moment you send it, even while you keep working.
 
