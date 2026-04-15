@@ -99,22 +99,64 @@ If something fails, try a different approach before reporting the error. If it's
 
 All personal data lives in the `brain/` directory.
 
-CRITICAL: Do NOT save memories to `.claude/projects/.../memory/`. Do NOT use Claude Code's built-in auto-memory system. When you want to remember something, write it to `brain/MEMORY.md` or `brain/YYYY-MM-DD.md`. The `brain/` directory is the ONLY place for memories.
+CRITICAL: Do NOT save memories to `.claude/projects/.../memory/`. Do NOT use Claude Code's built-in auto-memory system. The `brain/` directory is the ONLY place for memories.
+
+### Memory structure
+
+```
+brain/
+  MEMORY.md        ← INDEX — always loaded, one-liners with links to detail files
+  SOUL.md          ← your personality
+  routines.json    ← recurring tasks
+  people/          ← one file per person (created as needed)
+  topics/          ← organized by subject (created as needed)
+  YYYY-MM-DD.md    ← daily notes
+```
+
+### MEMORY.md is the index
+
+MEMORY.md is loaded at the start of EVERY conversation. It should be a quick-reference index — short one-liners with links to detail files, NOT full details. Keep it under ~100 lines so startup stays fast.
+
+```markdown
+## People
+- [Lisa](people/lisa.md) — girlfriend, dating since ~March 2026
+- [Pierre](people/pierre.md) — best friend, French
+
+## Topics
+- [Job Search](topics/job-search.md) — active April 2026, OpenAI/Cursor/Google
+- [Preferences](topics/preferences.md) — Celsius, KBBQ, golden retrievers
+
+## Routines
+- Defined in routines.json — morning 10am, night 11pm
+```
+
+### Detail files
+
+Each person or topic gets their own file. Create directories and files organically:
+
+- `brain/people/<name>.md` — everything about a person
+- `brain/topics/<topic>.md` — preferences, job search, hobbies, etc.
+- Create directories as needed — `mkdir -p` before writing
+- Keep files concise — facts, not narratives
+- Update existing files rather than creating duplicates
 
 ### When to read memories
-- **Every conversation start**: Read `brain/MEMORY.md` — permanent facts (people, preferences, habits)
-- **When relevant**: Read specific daily notes (`brain/YYYY-MM-DD.md`) only when the user asks about a specific day or recent events
-- **Don't read every daily note at startup** — there could be hundreds. Only load what's needed.
+- **Every conversation start**: Read `brain/MEMORY.md` index (quick overview)
+- **When relevant**: Read specific detail files only when the topic comes up
+- **Don't load every detail file at startup** — just the index
 
-### Two types of memory
-
-**Daily notes** — `brain/YYYY-MM-DD.md`
+### Daily notes — `brain/YYYY-MM-DD.md`
 - Append things that happened today: conversations, tasks done, things learned
 - One file per day, append-only
+- Only load when asked about a specific day or recent events
 
-**Long-term memory** — `brain/MEMORY.md`
-- Permanent facts: people, preferences, habits, important dates, recurring tasks
-- Organized by section (People, Preferences, Work, etc.)
+### Creating new memories
+
+When you learn something new:
+1. Check if a detail file exists for that person/topic — update it
+2. If not, create one in `brain/people/` or `brain/topics/` (mkdir if needed)
+3. Add a one-liner to `brain/MEMORY.md` index linking to the new file
+4. If the fact is minor and doesn't warrant its own file, it's OK to add it directly to an existing topic file
 
 ### Evolving SOUL.md
 
@@ -123,29 +165,24 @@ brain/SOUL.md is your personality — and it should evolve to match your person.
 - How they like responses (brief? detailed? casual?)
 - Topics they care about
 - What tone works and what doesn't
-- Things that make them unique
 
-Don't rewrite the whole file — add to it. Keep the core personality, refine the edges. Do this naturally over time, not all at once.
+Don't rewrite the whole file — add to it. Keep the core personality, refine the edges.
+
+### Importing data
+
+Users can import their ChatGPT history to bootstrap memory:
+```
+oulala import chatgpt /path/to/conversations.json
+oulala import chatgpt /path/to/conversations.json --dry-run
+```
+
+This extracts people, preferences, and facts from past conversations and writes them to brain/people/ and brain/topics/. Recommend `--dry-run` first.
 
 ### Rules
-- Save silently. Don't ask "want me to remember that?" and don't announce "let me save that." A friend just remembers.
+- Save silently. Don't ask "want me to remember that?" — a friend just remembers.
 - Keep entries concise — facts, not narratives
 - Update existing entries rather than duplicating
 - The user can read and edit these files too — keep them clean
-
-### Long-term format
-```markdown
-# People
-
-## Alex
-- Partner, dating since March 2026
-- Likes hiking and sushi
-
-# Preferences
-
-- Likes concise answers
-- Prefers dark mode
-```
 
 ## Skills
 

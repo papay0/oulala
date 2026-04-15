@@ -183,6 +183,67 @@ if ! diff -q "$MOCK_UPDATE/defaults/SOUL.md" "$MOCK_UPDATE/brain/SOUL.md" > /dev
 fi
 assert_eq "different files trigger merge" "true" "$NEEDS_MERGE"
 
+# ─── Import tests ───
+
+echo ""
+echo "Import (bin/oulala import)"
+
+OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" import 2>&1 || true)
+assert_contains "import shows sources" "chatgpt" "$OUTPUT"
+
+OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" import chatgpt 2>&1 || true)
+assert_contains "import chatgpt shows usage" "conversations.json" "$OUTPUT"
+
+# Test Python script parse with a mock export
+MOCK_EXPORT="$TEMP_DIR/conversations.json"
+cat > "$MOCK_EXPORT" << 'JSONEOF'
+[
+  {
+    "title": "Test conversation",
+    "create_time": 1712363200,
+    "current_node": "msg-2",
+    "mapping": {
+      "root": {"id": "root", "message": null, "parent": null, "children": ["msg-1"]},
+      "msg-1": {"id": "msg-1", "message": {"author": {"role": "user"}, "content": {"content_type": "text", "parts": ["Hello"]}}, "parent": "root", "children": ["msg-2"]},
+      "msg-2": {"id": "msg-2", "message": {"author": {"role": "assistant"}, "content": {"content_type": "text", "parts": ["Hi there"]}}, "parent": "msg-1", "children": []}
+    }
+  }
+]
+JSONEOF
+
+# Test that the Python parser works (just parse, no Claude calls)
+OUTPUT=$(python3 -c "
+import sys; sys.path.insert(0, '$PROJECT_DIR/bin')
+from importlib.util import spec_from_file_location, module_from_spec
+spec = spec_from_file_location('imp', '$PROJECT_DIR/bin/import-chatgpt.py')
+mod = module_from_spec(spec); spec.loader.exec_module(mod)
+convs = mod.parse_export('$MOCK_EXPORT')
+print(f'parsed:{len(convs)}')
+msgs = mod.extract_active_branch(convs[0])
+print(f'messages:{len(msgs)}')
+print(f'role0:{msgs[0][\"role\"]}')
+print(f'text0:{msgs[0][\"text\"]}')
+" 2>&1)
+assert_contains "parser loads export JSON" "parsed:1" "$OUTPUT"
+assert_contains "parser extracts active branch" "messages:2" "$OUTPUT"
+assert_contains "parser gets user role" "role0:user" "$OUTPUT"
+assert_contains "parser gets message text" "text0:Hello" "$OUTPUT"
+
+# Test envelope format
+cat > "$MOCK_EXPORT" << 'JSONEOF'
+{"conversations": [{"title": "Envelope test", "create_time": 1712363200, "current_node": "m1", "mapping": {"r": {"id": "r", "message": null, "parent": null, "children": ["m1"]}, "m1": {"id": "m1", "message": {"author": {"role": "user"}, "content": {"content_type": "text", "parts": ["test"]}}, "parent": "r", "children": []}}}]}
+JSONEOF
+
+OUTPUT=$(python3 -c "
+import sys; sys.path.insert(0, '$PROJECT_DIR/bin')
+from importlib.util import spec_from_file_location, module_from_spec
+spec = spec_from_file_location('imp', '$PROJECT_DIR/bin/import-chatgpt.py')
+mod = module_from_spec(spec); spec.loader.exec_module(mod)
+convs = mod.parse_export('$MOCK_EXPORT')
+print(f'parsed:{len(convs)}')
+" 2>&1)
+assert_contains "parser handles envelope format" "parsed:1" "$OUTPUT"
+
 # ─── Structure tests ───
 
 echo ""
@@ -202,6 +263,7 @@ assert_file_exists "skills/weather/SKILL.md exists" "$PROJECT_DIR/skills/weather
 assert_file_exists "skills/spotify/SKILL.md exists" "$PROJECT_DIR/skills/spotify/SKILL.md"
 assert_file_exists "skills/github/SKILL.md exists" "$PROJECT_DIR/skills/github/SKILL.md"
 assert_file_exists ".claude/settings.json exists" "$PROJECT_DIR/.claude/settings.json"
+assert_file_exists "bin/import-chatgpt.py exists" "$PROJECT_DIR/bin/import-chatgpt.py"
 assert_file_exists ".gitignore exists" "$PROJECT_DIR/.gitignore"
 assert_file_exists "README.md exists" "$PROJECT_DIR/README.md"
 

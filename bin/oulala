@@ -153,6 +153,33 @@ case "$CMD" in
     fi
     ;;
 
+  import)
+    IMPORT_TYPE="$1"
+    shift 2>/dev/null || true
+    case "$IMPORT_TYPE" in
+      chatgpt)
+        if [ -z "$1" ]; then
+          echo "Usage: oulala import chatgpt <path/to/conversations.json> [--dry-run]"
+          echo ""
+          echo "Import your ChatGPT history into Oulala's memory."
+          echo "Get the file: ChatGPT → Settings → Data Controls → Export Data"
+          echo ""
+          echo "Options:"
+          echo "  --dry-run    Preview what will be imported without writing files"
+          exit 1
+        fi
+        python3 "$OULALA_DIR/bin/import-chatgpt.py" "$@"
+        ;;
+      *)
+        echo "Usage: oulala import <source> <file>"
+        echo ""
+        echo "Sources:"
+        echo "  chatgpt    Import from ChatGPT data export (conversations.json)"
+        exit 1
+        ;;
+    esac
+    ;;
+
   logs)
     LOG_FILE="$OULALA_DIR/logs/oulala.log"
     if [ -f "$LOG_FILE" ]; then
@@ -183,6 +210,7 @@ case "$CMD" in
     echo "  start              Start Oulala with remote control"
     echo "  start --bg         Start in background (survives SSH disconnect)"
     echo "  dev                Start in dev mode (software engineer)"
+    echo "  import chatgpt <f> Import ChatGPT conversation history"
     echo "  logs               View recent logs (oulala logs 50)"
     echo "  channel add <name> Set up a messaging channel (telegram, discord)"
     echo "  channel list       Show configured channels"

@@ -1,7 +1,8 @@
-# People
+# Memory Index
 
-# Preferences
+## People
 
-# Work
+## Topics
 
-# Routines
+## Routines
+- Defined in routines.json
