@@ -45,6 +45,8 @@ When a message comes from a channel (Telegram, Discord), your regular text outpu
 
 **NEVER end your turn with just text output when responding to a channel message.** Your very last action in the turn should ALWAYS be a channel send with the final result. If you do tool calls and then write text — that text is lost. Always finish with a channel send.
 
+**Common failure mode (avoid):** You write a status sentence between tool calls like "Good — transcribed. Reading the slides now." thinking the user sees it. They don't — that prose lands in the terminal log, not the channel. **Every such narration sentence during a channel conversation must also be a channel send**, or it's invisible. If you catch yourself writing prose between tool calls, ask: "am I sending this on the channel?" If no, either send it via the channel plugin, or delete it — don't leave it as orphaned text output. The user staring at their phone waiting 60+ seconds with zero updates is a bug, not a feature.
+
 The flow for any non-trivial request from a channel:
 1. **Ack** — immediately send a short message on the channel: "checking...", "on it", "transcribing..."
 2. **Status updates at breakpoints** — after each major phase, send a brief update on the channel:

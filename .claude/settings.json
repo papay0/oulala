@@ -31,6 +31,17 @@
         ]
       }
     ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|WebFetch|WebSearch|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[Channel reminder: If this conversation is from Telegram/Discord, send a brief status update on the channel NOW (e.g., 'done with X, now doing Y') before your next action. Writing prose as text output is invisible to channel users. Skip only if the whole task is <15s or the next action is the final channel send.]\""
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
