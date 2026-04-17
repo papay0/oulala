@@ -18,7 +18,7 @@ build_channel_flags() {
 case "$CMD" in
   start)
     cd "$OULALA_DIR"
-    ARGS="--dangerously-skip-permissions --name Oulala --remote-control"
+    ARGS="--dangerously-skip-permissions --name Oulala --remote-control --model sonnet"
     if [ -f "$CHANNELS_FILE" ]; then
       while IFS= read -r channel; do
         [ -n "$channel" ] && ARGS="$ARGS --channels $channel"

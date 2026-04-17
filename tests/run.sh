@@ -89,6 +89,9 @@ OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" channel 2>&1 || true)
 assert_contains "channel help shows add" "add" "$OUTPUT"
 assert_contains "channel help shows list" "list" "$OUTPUT"
 
+SCRIPT=$(cat "$PROJECT_DIR/bin/oulala")
+assert_contains "start uses sonnet model (not default opus)" "\-\-model sonnet" "$SCRIPT"
+
 OUTPUT=$(bash "$PROJECT_DIR/bin/oulala" channel add badplatform 2>&1 || true)
 assert_contains "channel add unknown shows supported" "Supported channels" "$OUTPUT"
 
