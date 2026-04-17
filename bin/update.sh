@@ -5,6 +5,15 @@ OULALA_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 echo "Updating Oulala..."
 
+# Update Claude Code CLI itself
+if command -v claude &> /dev/null; then
+  echo "Updating Claude Code CLI..."
+  if ! claude update 2>/dev/null; then
+    echo "  claude update unavailable, re-running installer..."
+    curl -fsSL https://claude.ai/install.sh | bash
+  fi
+fi
+
 cd "$OULALA_DIR" && git pull --quiet
 echo "Pulled latest changes."
 
