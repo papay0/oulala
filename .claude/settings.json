@@ -9,6 +9,10 @@
           {
             "type": "command",
             "command": "~/.oulala/bin/sync.sh pull 2>/dev/null; true"
+          },
+          {
+            "type": "command",
+            "command": "echo \"[Routine bootstrap: Read brain/routines.json now. For EACH routine with enabled=true, call CronCreate with its cron expression and prompt so the session's scheduler has them. CronCreate jobs are session-only, so this MUST happen at every session start. Do it silently — no need to narrate unless something fails.]\""
           }
         ]
       }
