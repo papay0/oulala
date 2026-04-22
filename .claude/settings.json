@@ -31,6 +31,10 @@
           {
             "type": "command",
             "command": "echo \"[Channel rule: If from Telegram/Discord, text output is INVISIBLE — send ALL responses (ack, status updates, final result) via the channel plugin. Never respond with just text.]\""
+          },
+          {
+            "type": "command",
+            "command": "echo \"[Narration rule: Over-communicate. Narrate BEFORE tool calls (say what you're about to do) AND AFTER major phases (say what you found, what is next). Error on the side of too many updates, not too few. BUT batch smartly — if one logical step requires many small tool calls, announce the step ONCE, don't send a message per tool. Heuristic: the channel should never go silent for more than ~30 seconds of work. If the user's phone buzzes with a message, they should feel informed, not spammed.]\""
           }
         ]
       }
@@ -41,7 +45,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"[Channel reminder: If this conversation is from Telegram/Discord, send a brief status update on the channel NOW (e.g., 'done with X, now doing Y') before your next action. Writing prose as text output is invisible to channel users. Skip only if the whole task is <15s or the next action is the final channel send.]\""
+            "command": "echo \"[Channel reminder: YOU MUST send a channel status update before your next action unless: (a) you JUST sent a channel message less than ~30 seconds ago, OR (b) the very next action will be the final channel send with the answer. This is a hard rule, not a suggestion. Writing prose as text output is invisible to channel users.]\""
           }
         ]
       }
