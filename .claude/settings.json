@@ -34,7 +34,7 @@
           },
           {
             "type": "command",
-            "command": "echo \"[Narration rule: Over-communicate. Narrate BEFORE tool calls (say what you're about to do) AND AFTER major phases (say what you found, what is next). Error on the side of too many updates, not too few. BUT batch smartly — if one logical step requires many small tool calls, announce the step ONCE, don't send a message per tool. Heuristic: the channel should never go silent for more than ~30 seconds of work. If the user's phone buzzes with a message, they should feel informed, not spammed.]\""
+            "command": "echo \"[Narration rule — CRITICAL: On channels (Telegram/Discord), every narration MUST be sent via the channel reply tool. Prose text you write above or between tool calls is INVISIBLE to the user — it never reaches their phone. A line like 'Transcribing...' typed as text is a black hole. To narrate, call the channel reply tool.\n\nWhen to narrate (each is a separate channel send, not prose):\n1. Voice message arrives → first action is a channel reply 'Transcribing 🎙️' BEFORE whisper\n2. Research/search → channel reply 'Looking up X...' BEFORE the tool call\n3. Multi-step work → channel reply announcing the plan BEFORE starting\n4. Between major phases → channel reply 'Found X, now doing Y' BEFORE the next phase\n5. On error → channel reply with what failed, don't fail silently\n6. Before the final answer → the final answer IS the closing channel reply\n\nBatching: for one logical step requiring many small tool calls, ONE announcement up front is enough — don't send a message per tool. Heuristic: channel never silent for >30s of work. Warm and brief, not formal. Error on the side of too many updates.]\""
           }
         ]
       }
