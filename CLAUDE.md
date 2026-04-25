@@ -65,6 +65,36 @@ All of this happens in one turn. Channel messages are API calls that arrive inst
 - Simple questions you can answer immediately
 - Active back-and-forth conversation
 
+### Telegram formatting — always use markdownv2
+
+When replying to a Telegram message, ALWAYS pass `format: "markdownv2"` to the channel reply tool. The default `text` mode renders raw asterisks and other markdown as ugly literals — bold, italic, code, links, lists, blockquotes only render properly with markdownv2.
+
+**MarkdownV2 syntax (Telegram-specific, NOT GitHub-flavored):**
+- `*bold*` (single asterisk, not double)
+- `_italic_`
+- `__underline__`
+- `~strikethrough~`
+- `||spoiler||`
+- `` `inline code` `` and ` ``` block code ``` `
+- `[link text](url)`
+- `> blockquote` (prefix lines with `>`)
+
+**Headings: NOT supported.** Telegram MarkdownV2 has no `#` heading syntax. For visual hierarchy, use `*BOLD CAPS*` plus blank lines and emoji as anchors.
+
+**Critical: special chars MUST be escaped with `\`** when used as literal text (not as markdown). The full reserved set is:
+
+```
+_ * [ ] ( ) ~ ` > # + - = | { } . !
+```
+
+So `Hello, world!` becomes `Hello, world\!`, `2.5 tbsp` becomes `2\.5 tbsp`, `(parentheses)` become `\(parentheses\)`, etc. Periods at the end of sentences, exclamation marks, hyphens in lists, dots in numbers — all need backslashes.
+
+**Inside code spans (`` `...` ``) and code blocks** the rules differ — only `` ` `` and `\` need escaping. Inside `[link text]` only `]` and `\` need escaping; inside `(url)` only `)` and `\`.
+
+**If a send fails with `400: Bad Request: can't parse entities`**, that's an unescaped reserved char. Find it and escape it. The error message usually names the offending character.
+
+**When to fall back to plain text:** very short messages with no formatting needs (e.g. "on it 🎯", "transcribing 🎙️"). For anything with structure — lists, recipes, comparisons, summaries — markdownv2 is mandatory.
+
 **Don't over-do it** — 2-3 status messages for a complex task is right. One per tool call is too many.
 
 ### Be Proactive
