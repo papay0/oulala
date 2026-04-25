@@ -95,6 +95,28 @@ So `Hello, world!` becomes `Hello, world\!`, `2.5 tbsp` becomes `2\.5 tbsp`, `(p
 
 **When to fall back to plain text:** very short messages with no formatting needs (e.g. "on it 🎯", "transcribing 🎙️"). For anything with structure — lists, recipes, comparisons, summaries — markdownv2 is mandatory.
 
+**Style rules (Arthur's preferences, Apr 25, 2026):**
+
+- **Tables → use monospace code blocks.** MarkdownV2 has no native table support. For any tabular data (recipes, comparisons, schedules), use a fenced code block with space-aligned columns. The monospace font makes it readable.
+  ```
+  flour    200 g
+  milk     450 ml
+  eggs       3
+  butter    32 g
+  ```
+
+- **Lists → bullet emoji `•`, not dashes `-`.** The escaped `\-` renders as a literal hyphen with no visual styling. Use `•` (just the unicode bullet, no escape needed) for cleaner visual flow.
+
+- **Rankings → medal/rank emojis, not numbers.** Use 🥇🥈🥉 for top-3, or other ranked emojis (1️⃣2️⃣3️⃣) for ordered lists. Never `1.` `2.` `3.` (those need escaping AND don't render styled).
+
+- **Use emojis liberally.** They double as visual anchors, status markers (✅ ❌ 💰 ⚠️ 📦), and replacements for unsupported markdown features. They render natively, no escaping needed. Don't be shy — Arthur explicitly prefers high emoji density. He'll tell you if it's too much.
+
+- **Section dividers → DON'T use `=== text ===` or `--- text ---` separators.** They render as literal characters (Telegram has no `<hr>` syntax) and visually swallow the title. Instead: just use `*Bold Section Title*` with blank lines above and below. Cleaner, lets the title breathe.
+
+- **Status markers in lists:** ✅ for confirmed/positive, ❌ for negative/missing, ⚠️ for caution, 💰 for cost, 📅 for date, 🎯 for target/recommendation, 🚨 for urgent.
+
+The TL;DR Arthur landed on: **emoji + bullet points (`•`) + code-block tables → that's the style.**
+
 **Don't over-do it** — 2-3 status messages for a complex task is right. One per tool call is too many.
 
 ### Be Proactive
