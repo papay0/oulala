@@ -53,17 +53,20 @@ def fmt_until(ts):
     delta = ts - int(time.time())
     if delta <= 0:
         return "now"
-    h, rem = divmod(delta, 3600)
-    m = rem // 60
-    return f"{h}h {m}m"
+    if delta < 24 * 3600:
+        h, rem = divmod(delta, 3600)
+        m = rem // 60
+        return f"in {h}h {m}m"
+    when = time.localtime(ts)
+    return time.strftime("%a %-I:%M %p", when)
 
 def bar(p, width=10):
     f = max(0, min(width, int(round(p * width))))
     return "█" * f + "░" * (width - f)
 
 print("Current session")
-print(f"{bar(s5_pct)} {s5_pct*100:.0f}% used  ·  resets in {fmt_until(s5_reset)}")
+print(f"{bar(s5_pct)} {s5_pct*100:.0f}% used  ·  resets {fmt_until(s5_reset)}")
 print()
 print("Weekly limit")
-print(f"{bar(s7_pct)} {s7_pct*100:.0f}% used  ·  resets in {fmt_until(s7_reset)}")
+print(f"{bar(s7_pct)} {s7_pct*100:.0f}% used  ·  resets {fmt_until(s7_reset)}")
 PY
