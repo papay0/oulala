@@ -26,7 +26,7 @@
           },
           {
             "type": "command",
-            "command": "echo \"[Proactive check: Does this message warrant a follow-up later? If yes, silently create a one-shot CronCreate — include context and reply_to message_id if applicable.]\""
+            "command": "echo \"[Proactive check — DEFAULT YES: Did the user mention ANY future event, decision, activity, plan, feeling, or commitment? Walk, errand, decision in progress, doctor, social plan, project, even small mentions like 'I'll call mom later' — all of it triggers a follow-up. Silently schedule a one-shot CronCreate with context + reply_to message_id. Bar is LOW. Over-proactive > under-proactive. Don't announce it, just set it like a friend who remembers.]\""
           },
           {
             "type": "command",
